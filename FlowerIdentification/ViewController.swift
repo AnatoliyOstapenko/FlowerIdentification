@@ -26,14 +26,6 @@ class ViewController: UIViewController {
         pickerController.sourceType = .photoLibrary // only photo library use
         
     }
-    
-    
-    
-    
-    // MARK: - Identification
-    func identification(_ image: UIImage) {
-        
-    }
 
     @IBAction func cameraBarButton(_ sender: UIBarButtonItem) {
         
@@ -42,9 +34,39 @@ class ViewController: UIViewController {
         
     }
     
+    // MARK: - Identification
+    func identification(_ image: UIImage) {
+        
+        // convert image to ciimage
+        guard let ciImage = CIImage(image: image) else { return }
+        
+        // get model
+        guard let model = try? VNCoreMLModel(for: FlowerClassifier(configuration: MLModelConfiguration()).model) else { return }
+        
+        // add request
+        let request = VNCoreMLRequest(model: model) { (request, error) in
+            
+            // get all results
+            guard let results = request.results as? [VNClassificationObservation] else { return }
+            // get first, most confident result
+            guard let first = results.first?.identifier else { return }
+            
+            // show first as a title
+            self.navigationItem.title = first
+        }
+        
+        // create handler for ciImage
+        let handler = VNImageRequestHandler(ciImage: ciImage)
+        
+        // perform Vision
+        do {
+            try handler.perform([request])
+        } catch { print(error)}
+    }
+    
 }
 
-// MARK: -
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -55,6 +77,9 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         // show chosen image on the screen
         flowerImageView.image = image
+        
+        // dispatch image to identificate
+        identification(image)
         
         // dismiss picker
         pickerController.dismiss(animated: true, completion: nil)
