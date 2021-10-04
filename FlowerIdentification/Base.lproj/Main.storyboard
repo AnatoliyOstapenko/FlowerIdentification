@@ -14,14 +14,31 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vcp-dG-0He">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vcp-dG-0He" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0QG-ia-XD5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vcp-dG-0He" secondAttribute="trailing" id="Lee-3F-rww"/>
+                            <constraint firstItem="vcp-dG-0He" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="rXx-sP-ia9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vcp-dG-0He" secondAttribute="bottom" id="w8U-dX-xg3"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="kXZ-ND-Ijt">
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="mUb-eB-5Yc">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="cameraBarButton:" destination="BYZ-38-t0r" id="EpA-SI-37d"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="flowerImageView" destination="vcp-dG-0He" id="Hzs-Fa-d63"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
