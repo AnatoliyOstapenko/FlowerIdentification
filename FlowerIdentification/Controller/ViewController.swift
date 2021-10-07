@@ -10,9 +10,15 @@ import UIKit
 import CoreML
 import Vision
 
+import Alamofire
+import SwiftyJSON
+
 class ViewController: UIViewController {
     
     let pickerController = UIImagePickerController()
+    
+    //
+    let urlWiki = "https://en.wikipedia.org/w/api.php"
     
     
     
@@ -53,6 +59,7 @@ class ViewController: UIViewController {
             
             // show first as a title
             self.navigationItem.title = first
+            self.request(first)
         }
         
         // create handler for ciImage
@@ -62,6 +69,35 @@ class ViewController: UIViewController {
         do {
             try handler.perform([request])
         } catch { print(error)}
+    }
+    
+    // Alamofire - SwiftyJSON shit stuff
+    func request(_ flowerName: String) {
+        
+        // create parameters
+        let parameters: [String: String] = [
+            
+            "format": "json",
+            "action": "query",
+            "prop": "extracts",
+            "explaintext": "",
+            "titles": flowerName,
+            "indexpagesids": "",
+            "redirects": "1"
+
+        ]
+        
+        
+        AF.request(urlWiki, method: .get, parameters: parameters).responseJSON { (response) in
+            
+            switch response.result {
+            case .success(let value):
+                print("operation with wiki succeed")
+                print(response)
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        }
     }
     
 }
