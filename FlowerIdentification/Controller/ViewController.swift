@@ -93,9 +93,19 @@ class ViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 print("operation with wiki succeed")
-                print(response)
+                
+                //let flowerJSON: JSON = JSON(response.result.value!)
+                let flowerJSON: JSON = JSON(value)
+                
+                let pageid = flowerJSON["query"]["pageid"][0].stringValue
+                
+                let flowerDescription = flowerJSON["query"]["pages"]["pageid"]["extract"].stringValue
+               
+                
+                
+                
             case .failure(let error):
-                print(error.errorDescription)
+                print("error")
             }
         }
     }
