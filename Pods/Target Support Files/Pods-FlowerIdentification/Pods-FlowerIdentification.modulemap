@@ -1,0 +1,6 @@
+module Pods_FlowerIdentification {
+  umbrella header "Pods-FlowerIdentification-umbrella.h"
+
+  export *
+  module * { export * }
+}

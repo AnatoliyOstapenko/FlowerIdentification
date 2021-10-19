@@ -10,8 +10,6 @@ import UIKit
 import CoreML
 import Vision
 
-import Alamofire
-import SwiftyJSON
 
 class ViewController: UIViewController {
     
@@ -20,6 +18,7 @@ class ViewController: UIViewController {
     //
     let urlWiki = "https://en.wikipedia.org/w/api.php"
     
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     
     @IBOutlet weak var flowerImageView: UIImageView!
@@ -27,6 +26,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        descriptionLabel.text = "Let see description here"
         pickerController.delegate = self // delegate UIImagePickerController
         pickerController.allowsEditing = false // not allow edit image
         pickerController.sourceType = .photoLibrary // only photo library use
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
             
             // show first as a title
             self.navigationItem.title = first
-            self.request(first)
+       
         }
         
         // create handler for ciImage
@@ -71,45 +71,8 @@ class ViewController: UIViewController {
         } catch { print(error)}
     }
     
-    // Alamofire - SwiftyJSON shit stuff
-    func request(_ flowerName: String) {
-        
-        // create parameters
-        let parameters: [String: String] = [
-            
-            "format": "json",
-            "action": "query",
-            "prop": "extracts",
-            "explaintext": "",
-            "titles": flowerName,
-            "indexpagesids": "",
-            "redirects": "1"
 
-        ]
-        
-        
-        AF.request(urlWiki, method: .get, parameters: parameters).responseJSON { (response) in
-            
-            switch response.result {
-            case .success(let value):
-                print("operation with wiki succeed")
-                
-                //let flowerJSON: JSON = JSON(response.result.value!)
-                let flowerJSON: JSON = JSON(value)
-                
-                let pageid = flowerJSON["query"]["pageid"][0].stringValue
-                
-                let flowerDescription = flowerJSON["query"]["pages"]["pageid"]["extract"].stringValue
-               
-                
-                
-                
-            case .failure(let error):
-                print("error")
-            }
-        }
-    }
-    
+
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
